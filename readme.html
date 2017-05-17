@@ -1,0 +1,171 @@
+**P04 - Domain-Specific Language - Wallpaperer**
+
+
+General
+========
+
+Submission
+-----------
+
+
+Create a zip file that contains all of your code, this `readme.html` document, and any additional files of evidence (ex: screenshots).
+
+
+Student Info
+=============
+
+Your name: Yage Jin & Eric Krauss
+
+
+Documentations
+================
+Our project is a program that will accept user created scripts in order to control
+desktop wallpapering and general information display. The user will be able to designate
+specific sets of wallpapers as well as which monitors those sets will be displayed
+on in order to create advanced slideshows. 
+
+Muti-monitor support for desktop wallpapering is lacking across all operating systems 
+with users usually being able to set specific images for each monitor or set a 
+slideshow, but not both at the same time.  The user should be able to specify images 
+and folders for specific monitors, should be able to control the slideshow in timing, 
+order, and randomness, and should be able to layer on top of the desktop backgrounds 
+additional information such as time, cpu speed, ram status, etc.
+
+For more experienced programmers writing a custom program for each slideshow would
+be a massive waste of time.  Instead, any user can easily throw together a quick script
+to define many different slideshows.  While many operating systems are able to run multi-
+monitor slideshows, none come with the ability to define separate sources for each monitor.
+As such, we are confident that Wallpaperer is a very useful tool for the desktop aesthetician.
+
+
+Installing
+--------------------------------
+What you need to run this app:
+
+- Antlr4 for python3
+~~~~
+See "github.com/antlr/antlr4/blob/master/doc/python-target.md" and "antlr.org" for details
+~~~~
+
+- PIL
+~~~~
+pip install image
+~~~~
+
+Writing a script
+--------------------------------
+
+Sources would be folders that contain an arbitrary number of images.
+Set up a SOURCE variable that binds the path of a directory to itself:
+~~~~
+SOURCE name dirPath;
+~~~~
+
+Groups are specific sets of images that would be targeted at specific monitors.
+Set up a GROUP variable that binds the path of images to itself:
+~~~~
+GROUP name:
+	1 imagePath1 ## for monitor 1
+	2 imagePath2 ## for monitor 2
+;
+~~~~
+The composite image will be built with each image in order of the specified numbers, building the image from left to right.
+Monitor 1 then is on the left and monitor 2 is on the right.  If a third image was specified, that would go further right still.
+
+
+
+Overlay Text can be used to display information on top of the desktop background.  It executes a bash script and prints the stdout stream to the screen.  The position and justification of the text control where it will appear.
+Set up text overlay:
+~~~~
+## A/B means A or B
+OVERLAY TEXT name:
+	COMMAND bashScriptPath
+	LEFT/RIGHT 50% ## text horizontal location on screen
+	TOP/BOTTOM 50% ## text vertical location on screen
+	JUSTIFY LEFT/RIGHT ## text justify left or right
+;
+~~~~
+
+Set up image overlay:
+~~~~
+## A/B means A or B
+OVERLAY IMAGE name:
+	path ## the full path of the image
+	LEFT/RIGHT 50% ## image horizontal location on screen
+	TOP/BOTTOM 50% ## image vertical location on screen
+	JUSTIFY LEFT/RIGHT ## image justify left or right
+;
+~~~~
+
+Wallpaper Slideshows can be defined.  Images will be cycled through for each monitor either alphabetically or randomly.
+Set up slideshow:
+~~~~
+## A/B means A or B
+SLIDESHOW name:
+	1 sourceA ## takes a SOURCE variable
+	2 sourceB ## takes another SOURCE variable
+	## Any number of sources can be specified targeting any number of monitors.
+	TIME N SECONDS/MINUTES/HOURS ## N can be any positive integer
+	ORDER ALPHABETICAL/SHUFFLE; ## display slides based on the file name or randomly
+;
+~~~~
+
+Some additional notes:
+- Each declaration must be terminated in a semicolon ';'
+- The script as a whole must also be terminated with a semicolon.
+- names must start with a letter and can only include letters and numbers.
+- don't try naming two different things the same.  It will explode.
+- Paths must be the full path from root.  Relative paths will not work.
+- The included test script will need rewriting to account for the above.
+
+Include any combination of the code above in test.txt to create your costume wallpaper, and run the below command in terminal:
+~~~~
+python3 BackgroundManager.py test.txt ## Will run and query you for a group or slideshow to be displayed.
+python3 BackgroundManager.py test.txt GROUPNAME ## Will display the user defined group.
+python3 BackgroundManager.py test.txt SLIDESHOWNAME ## Will run the user defined slideshow.
+
+python3 BackgroundManager.py text.txt GROUPNAME/SLIDESHOWNAME False ## will run the group or slideshow without any overlays.
+~~~~
+
+
+Authors
+--------------------------------
+
+- Eric Krauss
+- Yage Jin
+
+
+Examples
+-------------------------------
+<!-- Details and screenshots here -->
+![Dual Monitor Support](DualMonitor.png width="600px")
+![Triple Monitor Support](TripleMonitors.png width="600px")
+![Overlaying Text](OverlayText.png width="600px")
+![Overlaying an Image](OverlayImages.png width="600px")
+![Coming all together](AllFeatures.png width="600px")
+
+
+
+Assignment Reflection
+======================
+
+Hours to complete assignment: 3
+
+Yage Jin was primarily responsible for writing the Image Manipulation code, for work on the readme, and helped write some of the main program.
+
+Eric Krauss wrote the bulk of the DSL, the main body of python code, and proofread the readme.
+
+Both were actively involved in pair-programming each others' work.
+
+List any other comments below.
+Feel free to provide any feedback on how much you learned from doing the assignment, and whether you enjoyed doing it.
+
+
+
+<!--
+
+Leave the following, as this will format your text above to look nice.
+
+-->
+
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>

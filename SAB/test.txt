@@ -1,0 +1,25 @@
+SOURCE LeftFolder /home/hero/Pictures/Wallpapers;
+SOURCE RightFolder /home/hero/Pictures/Wallpapers;
+GROUP PairA:
+    1 /home/hero/Pictures/Wallpapers/OmykA9H.jpg
+    2 /home/hero/Pictures/Wallpapers/grosslyincandescent.jpg;
+
+OVERLAY TEXT Time:
+    COMMAND /home/hero/bin/getTime.sh
+    RIGHT 70%
+    TOP 50%
+    JUSTIFY LEFT;
+
+OVERLAY IMAGE Panda:
+    /home/hero/Pictures/b.jpg
+    RIGHT 30%
+    BOTTOM 12%
+    JUSTIFY LEFT;
+
+SLIDESHOW Scifi:
+    1 LeftFolder
+    2 RightFolder
+    TIME 60 SECONDS
+    ORDER SHUFFLE;
+
+;
